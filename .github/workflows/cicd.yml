@@ -30,8 +30,8 @@ jobs:
           docker-compose -f docker-compose.prod.yml down
 
   deploy:
-    needs: build-and-test  # Runs only if build-and-test succeeds
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Only on main branch push
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
