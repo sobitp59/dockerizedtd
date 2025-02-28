@@ -1,12 +1,10 @@
 name: Deploy to GitHub Pages
-
 on:
   push:
     branches:
       - main
-
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -19,10 +17,28 @@ jobs:
         run: npm install
       - name: Build and export
         run: npm run export
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: exported-site
+          path: out/
+          if-no-files-found: error  # Fails if out/ is empty
+
+  deploy:
+    needs: build  # Only runs if build job succeeds
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: exported-site
+          path: out/
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: out 
+          folder: out
           branch: gh-pages
       - name: Output URL
-        run: echo "Deployed at https://sobitprasad.github.io/todo-app"
+        run: echo "Deployed at https://sobitp59.github.io/dockerizedtd"

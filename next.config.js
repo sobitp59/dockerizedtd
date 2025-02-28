@@ -8,5 +8,6 @@
 
 // export default nextConfig;
 module.exports = {
-  output: "export",
+  output: "export", // Ensures static export
+  basePath: "/dockerizedtd", // Matches your repo name
 };
